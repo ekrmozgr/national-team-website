@@ -1,0 +1,202 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model MilliTakim.Models.Bilet
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+<link href="~/css/biletal.css" rel="stylesheet" />
+
+<div class="container">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="payment-card">
+                    <i class="fa fa-cc-visa payment-icon-big text-success"></i>
+                    <h2>
+                        **** **** **** 1060
+                    </h2>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <small>
+                                <strong>@localizer["Son Kullanma Tarihi"]:</strong> 10/16
+                            </small>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <small>
+                                <strong>@localizer["Adı"]:</strong> David
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="payment-card">
+                    <i class="fa fa-cc-mastercard payment-icon-big text-warning"></i>
+                    <h2>
+                        **** **** **** 7002
+                    </h2>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <small>
+                                <strong>@localizer["Son Kullanma Tarihi"]:</strong> 10/16
+                            </small>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <small>
+                                <strong>@localizer["Adı"]:</strong> Anna Smith
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="payment-card">
+                    <i class="fa fa-cc-discover payment-icon-big text-danger"></i>
+                    <h2>
+                        **** **** **** 3466
+                    </h2>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <small>
+                                <strong>@localizer["Son Kullanma Tarihi"]:</strong> 10/16
+                            </small>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <small>
+                                <strong>@localizer["Adı"]:</strong> Morgan
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+
+            <div class="col-lg-12">
+
+                <div class="ibox">
+                    <div class="ibox-title">
+                        @localizer["Ödeme Metodu"]
+                    </div>
+                    <div class="ibox-content">
+
+                        <div class="panel-group payments-method" id="accordion">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="pull-right">
+                                        <i class="fa fa-cc-paypal text-success"></i>
+                                    </div>
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">PayPal</a>
+                                    </h5>
+                                </div>
+                                <div id="collapseOne" class="panel-collapse collapse">
+                                    <div class="panel-body">
+
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <h2>@localizer["Özet"]</h2>
+                                                <strong>@localizer["Maç Adı"]</strong>: @Model.macAdi <br>
+                                                <strong>@localizer["Fiyat"]</strong>: <span class="text-navy">₺@Model.biletFiyat</span>
+
+                                                <form id="myform" method="post" asp-action="BiletSatinAl">
+                                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                    <input type="hidden" asp-for="biletId" />
+                                                    <input type="hidden" asp-for="biletAdet" />
+                                                    <input type="hidden" asp-for="biletFiyat" />
+                                                    <input type="hidden" asp-for="macAdi" />
+                                                    <input type="hidden" asp-for="macTarihi" />
+                                                    <input type="hidden" asp-for="macYer" />
+                                                    <a class="btn btn-success" onclick="document.getElementById('myform').submit()">
+                                                        <i class="fa fa-cc-paypal">
+                                                            @localizer["PayPal ile Ödeme Yap"]
+                                                        </i>
+                                                    </a>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="pull-right">
+                                        <i class="fa fa-cc-amex text-success"></i>
+                                        <i class="fa fa-cc-mastercard text-warning"></i>
+                                        <i class="fa fa-cc-discover text-danger"></i>
+                                    </div>
+                                    <h5 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">@localizer["Kredi Kartı"]</a>
+                                    </h5>
+                                </div>
+                                <div id="collapseTwo" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <h2>@localizer["Özet"]</h2>
+                                                <strong>@localizer["Maç Adı"]:</strong>: @Model.macAdi <br>
+                                                <strong>@localizer["Fiyat"]:</strong>: <span class="text-navy">₺@Model.biletFiyat</span>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <form role="form" id="payment-form" asp-action="BiletSatinAl">
+                                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                    <input type="hidden" asp-for="biletId" />
+                                                    <input type="hidden" asp-for="biletAdet" />
+                                                    <input type="hidden" asp-for="biletFiyat" />
+                                                    <input type="hidden" asp-for="macAdi" />
+                                                    <input type="hidden" asp-for="macTarihi" />
+                                                    <input type="hidden" asp-for="macYer" />
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <div class="form-group">
+                                                                <label>@localizer["KART NUMARASI"]</label>
+                                                                <div class="input-group">
+                                                                    <input type="text" pattern="[0-9]{16}" class="form-control" name="Number" placeholder="Valid Card Number" required="" maxlength="16">
+                                                                    <span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-7 col-md-7">
+                                                            <div class="form-group">
+                                                                <label>@localizer["SON KULLANMA TARİHİ"]</label>
+                                                                <input type="text" pattern="(0[1-9]|1[0-2])\/[0-9]{2}" class="form-control" name="Expiry" placeholder="MM / YY" required="">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-5 col-md-5 pull-right">
+                                                            <div class="form-group">
+                                                                <label>@localizer["CVC NUMARASI"]</label>
+                                                                <input type="text" pattern="[0-9]{3}" class="form-control" name="CVC" placeholder="CVC" required="" maxlength="3">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <div class="form-group">
+                                                                <label>@localizer["KART SAHİBİNİN İSMİ"]</label>
+                                                                <input type="text" pattern="^[A-Za-z ]+$" class="form-control" name="nameCard" placeholder="NAME AND SURNAME" maxlength="20" minlength="3">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-xs-12">
+                                                            <button class="btn btn-primary" type="submit">@localizer["Ödeme Yap"]!</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,60 @@
+﻿@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MilliTakim</title>
+
+    <script src="~/lib/bootstrap/dist/js/jquery.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/css/sosyal_medya.css" rel="stylesheet" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">@localizer["Anasayfa"]</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Tarihce">@localizer["Tarihçe"]</a>
+</li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Futbolcu" asp-action="Index">@localizer["Futbolcularımız"]</a>
+</li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Bilet" asp-action="Index">@localizer["Bilet Al"]</a>
+</li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Magaza" asp-action="Index">@localizer["Mağaza"]</a>
+</li>
+                <li class="nav-item">
+                    <partial name="_Culture" />
+                </li>
+            </ul>
+            <partial name="_LoginPartial.cshtml" />
+        </div>
+    </nav>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="footer">
+        <div class="ml-auto asd">
+            <div class="template-demo"><button onclick="window.location.href = 'https://www.facebook.com'" type="button" class="btn btn-social-icon btn-facebook"><i class="fa fa-facebook"></i></button><button onclick="window.location.href = 'https://www.youtube.com'" type="button" class="btn btn-social-icon btn-youtube"><i class="fa fa-youtube"></i></button><button onclick="window.location.href = 'https://www.twitter.com'" type="button" class="btn btn-social-icon btn-twitter"><i class="fa fa-twitter"></i></button><button onclick="window.location.href = 'https://www.instagram.com'" type="button" class="btn btn-social-icon btn-instagram"><i class="fa fa-instagram"></i></button></div>
+        </div>
+    </footer>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

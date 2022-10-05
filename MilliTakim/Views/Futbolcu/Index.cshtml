@@ -1,0 +1,116 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using MilliTakim.Areas.Identity.Data
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@model IEnumerable<MilliTakim.Models.Futbolcu>
+@inject SignInManager<AuthUser> SignInManager
+@inject UserManager<AuthUser> UserManager
+@{
+
+    var futbolcu = ViewData["futbolcu"] as Futbolcu;
+}
+<link href="~/css/futbolcu.css" rel="stylesheet" />
+<div class="container py-5">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        @if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin"))
+        {
+    <form asp-action="FutbolcuEkle" method="post" enctype="multipart/form-data">
+        @localizer[@Html.DisplayNameFor(model => model.futbolcuAd)]
+        <input asp-for="@futbolcu.futbolcuAd" class="form-control" />
+        <span asp-validation-for="@futbolcu.futbolcuAd" class="text-danger"></span><br />
+
+        @localizer[@Html.DisplayNameFor(model => model.futbolcuSoyad)]
+        <input asp-for="@futbolcu.futbolcuSoyad" class="form-control" />
+        <span asp-validation-for="@futbolcu.futbolcuSoyad" class="text-danger"></span><br />
+
+        @localizer[@Html.DisplayNameFor(model => model.futbolcuYas)]
+        <input asp-for="@futbolcu.futbolcuYas" value="" class="form-control" />
+        <span asp-validation-for="@futbolcu.futbolcuYas" class="text-danger"></span><br />
+
+        @localizer[@Html.DisplayNameFor(model => model.futbolcuMarketDegeri)]
+        <input asp-for="@futbolcu.futbolcuMarketDegeri" value="" class="form-control" />
+        <span asp-validation-for="@futbolcu.futbolcuMarketDegeri" class="text-danger"></span><br />
+
+        @Html.DisplayNameFor(model => model.futbolcuInsta)
+        <input asp-for="@futbolcu.futbolcuInsta" class="form-control" />
+        <span asp-validation-for="@futbolcu.futbolcuInsta" class="text-danger"></span><br />
+
+        @Html.DisplayNameFor(model => model.futbolcuTwitter)
+        <input asp-for="@futbolcu.futbolcuTwitter" class="form-control" />
+        <span asp-validation-for="@futbolcu.futbolcuTwitter" class="text-danger"></span><br />
+
+        @localizer[@Html.DisplayNameFor(model => model.ProfilePicture)]<br />
+        <img id="profilePicture" style="width:350px;height:350px; object-fit:cover" src="~/avatar7.png">
+        <input type="file"
+               accept=".png,.jpg,.jpeg,.gif,.tif"
+               asp-for="@futbolcu.ProfilePicture"
+               class="form-control"
+               style="border:0px!important;padding: 0px;padding-top: 10px;padding-bottom: 30px;"
+               onchange="document.getElementById('profilePicture').src = window.URL.createObjectURL(this.files[0])" />
+        <span asp-validation-for="@futbolcu.ProfilePicture" class="text-danger"></span>
+        <br />
+        <button type="submit" class="btn btn-primary btn-lg btn-block"> @localizer["Ekle"]</button>
+    </form>
+        }
+    }
+    <div class="row mb-4">
+        <div class="col-lg-5">
+            <h2 class="display-4 font-weight-light"> @localizer["Futbolcularımız"]</h2>
+            <p class="font-italic text-muted"> @localizer["Türkiye Milli Takım Futbolcuları"]</p>
+        </div>
+    </div>
+        @if (Model != null)
+        {
+            <div class="row text-center">
+                @foreach (var item in Model)
+                {
+                    <div class="col-sm-12 mb-5">
+                        <div class="bg-white rounded shadow-sm py-5 px-4">
+                            @if (item.ProfilePicture == null)
+                            {
+                                <img src="~/avatar7.png" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
+                            }
+                            else
+                            {
+                                <img src="data:image/*;base64,@(Convert.ToBase64String(item.ProfilePicture))" alt="" width="100" class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
+                            }
+                            <h5 class="mb-0">@Html.DisplayFor(modelItem => item.futbolcuAd) @Html.DisplayFor(modelItem => item.futbolcuSoyad)</h5>
+                            <span class="small text-uppercase text-muted"><b>@Html.DisplayFor(modelItem => item.futbolcuYas)</b></span><br />
+                            <span class="small text-uppercase text-muted"><b>@Html.DisplayFor(modelItem => item.futbolcuMarketDegeri) €</b></span>
+                            <ul class="social mb-0 list-inline mt-3">
+                                @if (item.futbolcuInsta == null)
+                                {
+                                    <li class="list-inline-item"><a href="https://www.instagram.com" class="social-link"><i class="fa fa-instagram"></i></a></li>
+                                }
+                                else
+                                {
+                                    <li class="list-inline-item"><a href="@item.futbolcuInsta" class="social-link"><i class="fa fa-instagram"></i></a></li>
+                                }
+                                @if (item.futbolcuTwitter == null)
+                                {
+                                    <li class="list-inline-item"><a href="https://www.twitter.com" class="social-link"><i class="fa fa-twitter"></i></a></li>
+                                }
+                                else
+                                {
+                                    <li class="list-inline-item"><a href="@item.futbolcuTwitter" class="social-link"><i class="fa fa-twitter"></i></a></li>
+                                }
+                            </ul>
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                @if (await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), "Admin"))
+                                {
+                                    <br />
+                        <a asp-action="FutbolcuSil" asp-route-id="@item.playerId"> @localizer["Sil"]</a><br />
+                        <a asp-action="FutbolcuDuzenle" asp-route-id="@item.playerId"> @localizer["Düzenle"]</a>
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
