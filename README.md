@@ -7,3 +7,4 @@ In this project
 	- Authorizaton, Authentication and Security operations are done by ASP.NET Core Identity Framework
 	- Localization is applied for a second language support
 	- Input validation is performed
+	- Everything works as async
