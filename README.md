@@ -7,7 +7,7 @@
 	- Input validation was performed
 	- Everything works as async
   
-  #### Example Photos       
+  #### Example Photos        
         
   
   --------------------------------
